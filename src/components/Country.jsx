@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import App from "../App";
+import { Button, Card, CardContent, CardHeader } from "@mui/material"
 class Country extends Component {
     state = {
         name: 'US', 
@@ -14,14 +14,16 @@ class Country extends Component {
 
     render() {
         return(
-            <div className="country">
-                <div className="name">{this.state.name}</div>
-                <div className="medals">
-                    Gold Medals: {this.state.gold} 
-                    <button id="increment" onClick={this.handleIncrement} >+</button>
+            <Card>
+                <div className="country">
+                    <CardContent className="medals">
+                        {this.state.name}
+                        Gold Medals: {this.state.gold} 
+                        <Button variant="contained" size="small" className="increment" onClick={this.handleIncrement} >+</Button>
+                    </CardContent>
                 </div>
-                
-            </div>
+            </Card>
+            
         );
     }
 }
