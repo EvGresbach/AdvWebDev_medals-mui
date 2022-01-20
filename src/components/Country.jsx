@@ -41,9 +41,10 @@ class Country extends Component {
                         <Divider></Divider>
                         <div> 
                             <Avatar className={classes.medals} >{this.state.gold}</Avatar>
-                            <span style={{fontSize: "1.5em"}}> Gold Medals </span> 
+                            <span style={{fontSize: "1.5em"}}> Gold Medal{this.state.gold === 1 ? '' : 's'} </span> 
                         </div> 
                         <Button variant="contained" size="small"className="increment" onClick={this.handleIncrement}  startIcon={<AddCircle />}>Add Medal</Button>
+                        
                     </CardContent>
                 </div>
             </Card>
