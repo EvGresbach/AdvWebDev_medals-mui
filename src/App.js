@@ -1,11 +1,14 @@
-import logo from './logo.svg';
+
+import { Container } from '@mui/material';
 import './App.css';
 import Country from './components/Country';
 
 function App() {
   return (
     <div className="App">
-      <Country />
+      <Container>
+        <Country />
+      </Container>
     </div>
   );
 }
