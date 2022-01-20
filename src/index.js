@@ -8,8 +8,7 @@ import Country from "./components/Country";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App /> */}
-    <Country />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
