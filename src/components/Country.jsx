@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Avatar, Button, Card, CardContent, Divider } from "@mui/material"
+import { Avatar, Card, CardContent, Divider, IconButton } from "@mui/material"
 import { withStyles } from "@mui/styles";
-import { AddCircle } from "@mui/icons-material"
+import { AddCircle, RemoveCircle } from "@mui/icons-material"
 
 const styles = {
     card: {
@@ -26,9 +26,10 @@ class Country extends Component {
     }
 
     handleIncrement = () => {
-        
         this.setState({gold: this.state.gold + 1}); 
-    
+    }
+    handleDecrement = () => {
+        this.setState({gold: this.state.gold - 1}); 
     }
 
     render() {
@@ -43,9 +44,10 @@ class Country extends Component {
                             <Avatar className={classes.medals} >{this.state.gold}</Avatar>
                             <span style={{fontSize: "1.5em"}}> Gold Medal{this.state.gold === 1 ? '' : 's'} </span> 
                         </div> 
-                        <Button variant="contained" size="small"className="increment" onClick={this.handleIncrement}  startIcon={<AddCircle />}>Add Medal</Button>
-                        
+                        <IconButton size="small" className="increment" onClick={this.handleIncrement}><AddCircle /></IconButton>
+                        <IconButton size="small" className="decrement" onClick={this.handleDecrement} disabled={this.state.gold == 0}><RemoveCircle /></IconButton>
                     </CardContent>
+                    
                 </div>
             </Card>
             
