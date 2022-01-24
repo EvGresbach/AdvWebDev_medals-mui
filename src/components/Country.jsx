@@ -21,8 +21,8 @@ const styles = {
 }
 class Country extends Component {
     state = {
-        name: 'US', 
-        gold: 0,
+        name: this.props.country.name, 
+        gold: this.props.country.goldMedalCount,
     }
 
     handleIncrement = () => {
