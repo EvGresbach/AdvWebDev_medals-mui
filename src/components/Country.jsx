@@ -45,7 +45,7 @@ class Country extends Component {
                             <span style={{fontSize: "1.5em"}}> Gold Medal{this.state.gold === 1 ? '' : 's'} </span> 
                         </div> 
                         <IconButton size="small" className="increment" onClick={this.handleIncrement}><AddCircle /></IconButton>
-                        <IconButton size="small" className="decrement" onClick={this.handleDecrement} disabled={this.state.gold == 0}><RemoveCircle /></IconButton>
+                        <IconButton size="small" className="decrement" onClick={this.handleDecrement} disabled={this.state.gold === 0}><RemoveCircle /></IconButton>
                     </CardContent>
                     
                 </div>
