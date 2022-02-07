@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Avatar, AppBar, Container, Button, Toolbar, Typography } from '@mui/material';
 import './App.css';
 import Country from './components/Country';
+import NewCountry from './components/NewCountry';
 
 class App extends Component{
   state = {
@@ -15,10 +16,6 @@ class App extends Component{
       {id: 1, type: "gold"}, 
       {id: 2, type: "silver"}, 
       {id: 3, type: "bronze"}
-    ],
-
-    randomCountryNames: [
-      "Iceland", "Tuvalu", "Israel", "Estonia", "Saint Lucia", "Mayotte"
     ],
 
   }
@@ -50,24 +47,12 @@ class App extends Component{
     return this.state.countries.reduce((a, b) => a + b.gold + b.silver + b.bronze, 0);
   }
 
-  addCountry = () => {
-    console.log(this.state.randomCountryNames.length)
-    if(this.state.randomCountryNames.length > 0){
-      //generate random for name and gold medal count
-      let rnd = Math.floor(Math.random() * this.state.randomCountryNames.length);
-      let name = this.state.randomCountryNames[rnd];
-      let id = Math.max.apply(Math, this.state.countries.map(c => c.id)) + 1; 
-
-      //remove name to prevent duplicates
-      this.setState({randomCountryNames: this.state.randomCountryNames.filter(n => n !== name)})
-
-      //add to countries
-      var countries = this.state.countries; 
-      countries.push({id: id, name: name, gold: rnd, silver: ++rnd, bronze: --rnd });
-      this.setState({countries: countries}); 
-
+  handleAddCountry = (name) => {
+    let {countries} = this.state; 
+    let id = countries.length === 0 ? 1 : Math.max(...countries.map(c => c.id)) + 1; 
+    const mutableCountries = countries.concat({ id: id, name: name, gold: 0, silver: 0, bronze: 0},)
+    this.setState({countries: mutableCountries}); 
     }
-  }
 
   render(){
     return (
@@ -79,6 +64,7 @@ class App extends Component{
           </Toolbar>
         </AppBar>
         <Container>
+        
           {this.state.countries.map(country =>
               <Country key={country.id}
                 country = {country}
@@ -88,8 +74,8 @@ class App extends Component{
                 onDelete = {this.handleCountryDelete}
               />
             )}
-            <Button variant="contained" onClick={this.addCountry} disabled={this.state.randomCountryNames.length === 0}>Add Random Country</Button>
         </Container>
+        <NewCountry addCountry = {this.handleAddCountry}/>
       </div>
     )
   }

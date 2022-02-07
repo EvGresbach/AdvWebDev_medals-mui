@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, Card, CardContent, CardActions, Divider } from "@mui/material"
+import { IconButton, Card, CardContent, Divider } from "@mui/material"
+import { Delete} from "@mui/icons-material";
 import { withStyles } from "@mui/styles";
 
 import Medal from "./Medal";
@@ -13,8 +14,9 @@ const styles = {
     
     countryName: {
         fontSize: '2em',
-        marginBottom: '.auto'
-    }
+        marginBottom: '.auto',
+        display: 'inline-flex'
+    },
 }
 class Country extends Component {
  
@@ -28,7 +30,8 @@ class Country extends Component {
         return(
             <Card className={classes.card}>            
                 <CardContent>
-                    <div className={classes.countryName}>{country.name}</div>
+                    <div className={classes.countryName}>{country.name}</div> 
+                    <IconButton variant="outlined" onClick={() => this.props.onDelete(country.id)}><Delete/></IconButton>
                     <Divider></Divider>
                     {this.props.medals.map(medal => 
                     <Medal 
@@ -41,9 +44,6 @@ class Country extends Component {
                 )}
                  <span style={{"font-weight": "bold"}}>Total Medals: {this.getTotal()}</span>     
                 </CardContent>
-                <CardActions>
-                    <Button variant="outlined" onClick={() => this.props.onDelete(country.id)}>Remove Country</Button>
-                </CardActions>
             </Card>
             
         );
