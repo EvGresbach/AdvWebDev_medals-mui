@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Avatar, AppBar, Container, Button, Toolbar, Typography } from '@mui/material';
+import { Avatar, AppBar, Container, Toolbar, Typography } from '@mui/material';
 import './App.css';
 import Country from './components/Country';
 import NewCountry from './components/NewCountry';
