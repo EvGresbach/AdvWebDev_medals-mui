@@ -1,11 +1,6 @@
 import React, {Component} from "react"; 
 import {Fab, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField} from "@mui/material";
-import { Add, FastfoodOutlined} from "@mui/icons-material";
-import { withStyles } from "@mui/styles";
-
-const styles = {
-    
-}
+import { Add} from "@mui/icons-material";
 
 class NewCountry extends Component{
 
@@ -35,9 +30,7 @@ class NewCountry extends Component{
     }
 
     render(){
-        const { classes } = this.props;
-
-        return(
+       return(
             <div>
                 <Fab color="primary" aria-label="add" onClick={this.handleOpen}><Add/></Fab>
                 <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -67,4 +60,4 @@ class NewCountry extends Component{
     }
 }
 
-export default withStyles(styles, { withTheme: true })(NewCountry);
+export default NewCountry;
