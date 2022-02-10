@@ -1,63 +1,49 @@
-import React, {Component} from "react"; 
+import React, {useState} from "react"; 
 import {Fab, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField} from "@mui/material";
 import { Add} from "@mui/icons-material";
 
-class NewCountry extends Component{
-
-    state = {
-        open: false,
-        name: '',
+const NewCountry = (props) =>{
+    const [open, setOpen] = useState(false); 
+    const [name, setName] = useState(''); 
+  
+    const handleOpen = () => {
+        setOpen(true); 
+        setName(''); 
     }
 
-    capatalize(){
-        return this.props.type.charAt(0).toUpperCase() + this.props.type.slice(1);
-    }
+    const handleClose = () => setOpen(false); 
 
-    handleOpen = () => {
-        this.setState({open: true, name: ''})
-    }
-
-    handleClose = () => {
-        this.setState({open: false,}) 
-    }
-    handleChange = (e) => {
-        this.setState({[e.target.name]: e.target.value });
-    }
-    handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addCountry(this.state.name);
-        this.setState({open: false}); 
+        props.addCountry(name);
+        setOpen(false); 
     }
-
-    render(){
-       return(
-            <div>
-                <Fab color="primary" aria-label="add" onClick={this.handleOpen}><Add/></Fab>
-                <Dialog open={this.state.open} onClose={this.handleClose}>
-                    <DialogTitle>Add New Country</DialogTitle>
-                    <form onSubmit={ (e) => this.handleSubmit(e)}>
-                    <DialogContent>
-                        <DialogContentText>Please enter a country name</DialogContentText>
-                        <TextField 
-                            onChange={this.handleChange} 
-                            autoFocusid="name"
-                            name="name"
-                            value={ this.state.name }
-                            label="Country Name"
-                            type="text"
-                            fullWidth>
-                        </TextField>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleClose} color="warning">Cancel</Button>
-                        <Button disabled={this.state.name.trim().length === 0} type="submit">Add Country</Button>
-                    </DialogActions>
-                    </form>
-                </Dialog>
-            </div>
-            
-        )
-    }
+    return(
+        <div>
+            <Fab color="primary" aria-label="add" onClick={handleOpen}><Add/></Fab>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Add New Country</DialogTitle>
+                <form onSubmit={ (e) => handleSubmit(e)}>
+                <DialogContent>
+                    <DialogContentText>Please enter a country name</DialogContentText>
+                    <TextField 
+                        onChange={(e) => setName(e.target.value)} 
+                        autoFocusid="name"
+                        name="name"
+                        value={ name }
+                        label="Country Name"
+                        type="text"
+                        fullWidth>
+                    </TextField>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="warning">Cancel</Button>
+                    <Button disabled={name.trim().length === 0} type="submit">Add Country</Button>
+                </DialogActions>
+                </form>
+            </Dialog>
+        </div>
+    )
 }
 
 export default NewCountry;
