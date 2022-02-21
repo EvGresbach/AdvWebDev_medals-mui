@@ -21,7 +21,7 @@ const styles = {
 const Country = (props) =>  {
  
     const getTotal = () => {
-        return props.medals.reduce((a, b) => a + props.country[b.type], 0); 
+        return props.medals.reduce((a, b) => a + props.country[b.type + "MedalCount"], 0); 
     }
     
     const { classes } = props;
@@ -36,7 +36,7 @@ const Country = (props) =>  {
                 <Medal 
                     key = {medal.id}
                     type = {medal.type}
-                    value = {country[medal.type]}
+                    value = {country[medal.type + "MedalCount"]}
                     increment = {() => props.increment(country.id, medal.type)}
                     decrement = {() => props.decrement(country.id, medal.type)}
                 ></Medal>

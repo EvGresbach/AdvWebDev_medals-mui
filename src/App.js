@@ -1,20 +1,24 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Avatar, AppBar, Container, Toolbar, Typography } from '@mui/material';
 import './App.css';
 import Country from './components/Country';
 import NewCountry from './components/NewCountry';
 
 const App = () =>{
-  const [countries, setCountries] = useState([
-    { id: 1, name: 'United States', gold: 2, silver: 0, bronze: 3},
-    { id: 2, name: 'China', gold: 3, silver: 5, bronze: 1},
-    { id: 3, name: 'Germany', gold: 0, silver: 1, bronze: 7},
-  ]); 
+  const [countries, setCountries] = useState([]); 
   const [medals, setMedals] = useState([
     {id: 1, type: "gold"}, 
     {id: 2, type: "silver"}, 
     {id: 3, type: "bronze"}
   ])
+
+  useEffect(() => {
+    async function fetchData(){
+      const{data: fetchedCountries} = await axios.get(apiEndpoint); 
+      setCountries(fetchedCountries); 
+    }
+    fetchData(); 
+  })
   
   const handleIncrement = (countryId, medalType) => {
     //get id
@@ -22,7 +26,7 @@ const App = () =>{
     //create temporary array
     const mutableCountries = [...countries]; 
     //edit and save
-    mutableCountries[index][medalType]++; 
+    mutableCountries[index][medalType + "MedalCount"]++; 
     setCountries(mutableCountries); 
   }
   const handleDecrement = (countryId, medalType) => {
@@ -31,12 +35,23 @@ const App = () =>{
     //create temporary array
     const mutableCountries = [...countries]; 
     //edit and save
-    mutableCountries[index][medalType]--; 
+    mutableCountries[index][medalType + "MedalCount"]--; 
     setCountries(mutableCountries); 
   }
 
   const handleCountryDelete = (id) => {
-    setCountries(countries.filter(c => c.id !== id));
+    var origCountries = countries; 
+    setCountries(countries.filter(c => c.id !== countryId));
+    try{
+      await axios.delete(`${apiEndpoint}/${countryId}`); 
+    } catch (e) {
+      if(e.response && e.response.status === 404){
+        console.log("Thiss record does not exist - it may have been deleted")
+      } else{
+        alert('An error occurred while deleted a country')
+        setCountries(origCountries); 
+      }
+    }
   }
 
   const getTotalMedals = () => {
@@ -45,9 +60,10 @@ const App = () =>{
 
   const handleAddCountry = (name) => {
     let id = countries.length === 0 ? 1 : Math.max(...countries.map(c => c.id)) + 1; 
-    const mutableCountries = countries.concat({ id: id, name: name, gold: 0, silver: 0, bronze: 0},)
-    setCountries(mutableCountries); 
-    }
+    const {data: post} = await axios.post(apiEndpoint, { id: id, name: name, gold: 0, silver: 0, bronze: 0}); 
+
+    setCountries(countries.concat(post));
+  }
 
     return (
       <div className="App">
