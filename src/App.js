@@ -6,7 +6,7 @@ import NewCountry from './components/NewCountry';
 
 const App = () =>{
   const [countries, setCountries] = useState([]); 
-  const [medals, setMedals] = useState([
+  const [medals] = useState([
     {id: 1, type: "gold"}, 
     {id: 2, type: "silver"}, 
     {id: 3, type: "bronze"}
