@@ -44,9 +44,9 @@ const App = () =>{
 
   const handleCountryDelete = async (id) => {
     var origCountries = countries; 
-    setCountries(countries.filter(c => c.id !== countryId));
+    setCountries(countries.filter(c => c.id !== id));
     try{
-      await axios.delete(`${apiEndpoint}/${countryId}`); 
+      await axios.delete(`${apiEndpoint}/${id}`); 
     } catch (e) {
       if(e.response && e.response.status === 404){
         console.log("Thiss record does not exist - it may have been deleted")
