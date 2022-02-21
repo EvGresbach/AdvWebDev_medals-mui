@@ -58,7 +58,7 @@ const App = () =>{
   }
 
   const getTotalMedals = () => {
-    return countries.reduce((a, b) => a + b.gold + b.silver + b.bronze, 0);
+    return countries.reduce((a, b) => a + b.goldMedalCount + b.silverMedalCount + b.bronzeMedalCount, 0);
   }
 
   const handleAddCountry = async (name) => {
