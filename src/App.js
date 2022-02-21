@@ -39,7 +39,7 @@ const App = () =>{
     setCountries(mutableCountries); 
   }
 
-  const handleCountryDelete = (id) => {
+  const handleCountryDelete = async (id) => {
     var origCountries = countries; 
     setCountries(countries.filter(c => c.id !== countryId));
     try{
@@ -58,7 +58,7 @@ const App = () =>{
     return countries.reduce((a, b) => a + b.gold + b.silver + b.bronze, 0);
   }
 
-  const handleAddCountry = (name) => {
+  const handleAddCountry = async (name) => {
     let id = countries.length === 0 ? 1 : Math.max(...countries.map(c => c.id)) + 1; 
     const {data: post} = await axios.post(apiEndpoint, { id: id, name: name, gold: 0, silver: 0, bronze: 0}); 
 
