@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import { Avatar, AppBar, Container, Toolbar, Typography } from '@mui/material';
 import './App.css';
 import Country from './components/Country';
@@ -6,12 +7,12 @@ import NewCountry from './components/NewCountry';
 
 const App = () =>{
   const [countries, setCountries] = useState([]); 
+
   const [medals] = useState([
     {id: 1, type: "gold"}, 
     {id: 2, type: "silver"}, 
     {id: 3, type: "bronze"}
   ])
-
   useEffect(() => {
     async function fetchData(){
       const{data: fetchedCountries} = await axios.get(apiEndpoint); 
@@ -19,6 +20,8 @@ const App = () =>{
     }
     fetchData(); 
   })
+  const apiEndpoint = "https://medals-api-eg.azurewebsites.net/api/country";
+
   
   const handleIncrement = (countryId, medalType) => {
     //get id
