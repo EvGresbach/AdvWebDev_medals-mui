@@ -46,7 +46,9 @@ const App = () =>{
   
   const handleIncrement = (countryId, medalName) => handleUpdate(countryId, medalName, 1);
   const handleDecrement = (countryId, medalName) =>  handleUpdate(countryId, medalName, -1);
+
   const handleUpdate = async (countryId, medalName, factor) => {
+    const originalCountries = countries;
     const idx = countries.findIndex(c => c.id === countryId);
     const mutableCountries = [...countries ];
     mutableCountries[idx][medalName] += (1 * factor);
