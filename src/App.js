@@ -6,6 +6,8 @@ import Country from './components/Country';
 import NewCountry from './components/NewCountry';
 
 const App = () =>{
+  const apiEndpoint = "https://medals-api-eg.azurewebsites.net/api/country";
+
   const [countries, setCountries] = useState([]); 
 
   const [medals] = useState([
@@ -20,52 +22,53 @@ const App = () =>{
     }
     fetchData(); 
   })
-  const apiEndpoint = "https://medals-api-eg.azurewebsites.net/api/country";
-
   
-  const handleIncrement = (countryId, medalType) => {
-    //get id
-    const index = countries.findIndex(c => c.id === countryId);
-    //create temporary array
-    const mutableCountries = [...countries]; 
-    //edit and save
-    mutableCountries[index][medalType + "MedalCount"]++; 
-    setCountries(mutableCountries); 
-  }
-  const handleDecrement = (countryId, medalType) => {
-    //get id
-    const index = countries.findIndex(c => c.id === countryId);
-    //create temporary array
-    const mutableCountries = [...countries]; 
-    //edit and save
-    mutableCountries[index][medalType + "MedalCount"]--; 
-    setCountries(mutableCountries); 
+  const handleAddCountry = async (name) => {
+    const { data: post } = await axios.post(apiEndpoint, { name: name });
+    setCountries(countries.concat(post));
   }
 
   const handleCountryDelete = async (id) => {
-    var origCountries = countries; 
-    setCountries(countries.filter(c => c.id !== id));
-    try{
-      await axios.delete(`${apiEndpoint}/${id}`); 
-    } catch (e) {
-      if(e.response && e.response.status === 404){
-        console.log("Thiss record does not exist - it may have been deleted")
-      } else{
-        alert('An error occurred while deleted a country')
-        setCountries(origCountries); 
+    const originalCountries = countries;
+    setCountries(countries.filter(c => c.id !== countryId));
+    try {
+      await axios.delete(`${apiEndpoint}/${countryId}`);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        // country already deleted
+        console.log("The record does not exist - it may have already been deleted");
+      } else { 
+        alert('An error occurred while deleting');
+        setCountries(originalCountries);
+      }
+    }
+  }
+  
+  const handleIncrement = (countryId, medalName) => handleUpdate(countryId, medalName, 1);
+  const handleDecrement = (countryId, medalName) =>  handleUpdate(countryId, medalName, -1);
+  const handleUpdate = async (countryId, medalName, factor) => {
+    const idx = countries.findIndex(c => c.id === countryId);
+    const mutableCountries = [...countries ];
+    mutableCountries[idx][medalName] += (1 * factor);
+    setCountries(mutableCountries);
+    const jsonPatch = [{ op: "replace", path: medalName, value: mutableCountries[idx][medalName] }];
+    console.log(`json patch for id: ${countryId}: ${JSON.stringify(jsonPatch)}`);
+
+    try {
+      await axios.patch(`${apiEndpoint}/${countryId}`, jsonPatch);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) {
+        // country already deleted
+        console.log("The record does not exist - it may have already been deleted");
+      } else { 
+        alert('An error occurred while updating');
+        setCountries(originalCountries);
       }
     }
   }
 
   const getTotalMedals = () => {
     return countries.reduce((a, b) => a + b.goldMedalCount + b.silverMedalCount + b.bronzeMedalCount, 0);
-  }
-
-  const handleAddCountry = async (name) => {
-    let id = countries.length === 0 ? 1 : Math.max(...countries.map(c => c.id)) + 1; 
-    const {data: post} = await axios.post(apiEndpoint, { id: id, name: name, gold: 0, silver: 0, bronze: 0}); 
-
-    setCountries(countries.concat(post));
   }
 
     return (
