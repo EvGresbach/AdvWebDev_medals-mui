@@ -21,7 +21,11 @@ const styles = {
 const Country = (props) =>  {
  
     const getTotal = () => {
-        return props.medals.reduce((a, b) => a + props.country[b.type + "MedalCount"], 0); 
+        let sum = 0;
+        props.medals.forEach(medal => { sum += props.country[medal.type + "MedalCount"]; });
+        return sum;
+
+        // props.medals.reduce((a, b) => a + props.country[b.type + "MedalCount"], 0); 
     }
     
     const { classes } = props;
@@ -30,15 +34,16 @@ const Country = (props) =>  {
         <Card className={classes.card}>            
             <CardContent>
                 <div className={classes.countryName}>{country.name}</div> 
-                <IconButton variant="outlined" onClick={() => props.onDelete(country.id)}><Delete/></IconButton>
+                { props.canDelete && <IconButton variant="outlined" onClick={() => props.onDelete(country.id)}><Delete/></IconButton>}
                 <Divider></Divider>
-                {props.medals.map(medal => 
+                { props.medals.map(medal => 
                 <Medal 
                     key = {medal.id}
                     type = {medal.type}
                     value = {country[medal.type + "MedalCount"]}
                     increment = {() => props.increment(country.id, medal.type)}
                     decrement = {() => props.decrement(country.id, medal.type)}
+                    canPatch={ props.canPatch }
                 ></Medal>
             )}
                 <span style={{"font-weight": "bold"}}>Total Medals: {getTotal()}</span>     

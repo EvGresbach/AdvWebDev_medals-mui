@@ -25,8 +25,12 @@ const Medal = (props) => {
                 <Avatar className={classes.medals} >{props.value}</Avatar>
                 <span style={{fontSize: "1.5em"}}> {capatalize()} Medal{props.value === 1 ? '' : 's'} </span> 
             </div> 
-            <IconButton size="small" className="increment" onClick={() => props.increment()}><AddCircle /></IconButton>
-            <IconButton size="small" className="decrement" onClick={() => props.decrement()} disabled={props.value === 0}><RemoveCircle /></IconButton>
+            { props.canPatch && 
+                <React.Fragment>
+                   <IconButton size="small" className="increment" onClick={() => props.increment()}><AddCircle /></IconButton>
+                    <IconButton size="small" className="decrement" onClick={() => props.decrement()} disabled={props.value === 0}><RemoveCircle /></IconButton> 
+                </React.Fragment>
+            }
         </div>
         
     )
