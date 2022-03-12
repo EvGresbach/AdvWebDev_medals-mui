@@ -15,10 +15,13 @@ const App = () =>{
   // const hubEndpoint = "https://localhost:5001/medalsHub";
   // const usersEndpoint = "https://localhost:5001/api/users/login";
   // const apiEndpoint = "https://medalsapi.azurewebsites.net/api/country";
-  const apiEndpoint = "https://medalsapi.azurewebsites.net/jwt/api/country";
-  const hubEndpoint = "https://medalsapi.azurewebsites.net/medalsHub";
-  const usersEndpoint = "https://medalsapi.azurewebsites.net/api/users/login";
-
+  // const apiEndpoint = "https://medalsapi.azurewebsites.net/jwt/api/country";
+  // const hubEndpoint = "https://medalsapi.azurewebsites.net/medalsHub";
+  // const usersEndpoint = "https://medalsapi.azurewebsites.net/api/users/login";
+  const apiEndpoint = "https://medals-api-eg.azurewebsites.net/jwt/api/country";
+  const hubEndpoint = "https://medals-api-eg.azurewebsites.net/medalsHub"
+  const usersEndpoint = "https://medals-api-eg.azurewebsites.net/api/users/login";
+  
   const [countries, setCountries] = useState([]); 
   const [ connection, setConnection] = useState(null);
 
